@@ -58,6 +58,18 @@ PacketHandler.prototype.handleMessage = function(message) {
                 this.socket.playerTracker.spectate = true;
             }
             break;
+         case 42:
+            var message = "";
+            for (var i = 1; i < view.byteLength; i += 2) {
+                var charCode = view.getUint16(i, true);
+                if (charCode == 0) {
+                    break;
+                }
+
+                message += String.fromCharCode(charCode);
+            }
+            
+            this.gameServer.sendMessage(message);
         case 16:
             // Discard broken packets
             if (view.byteLength == 21) {
